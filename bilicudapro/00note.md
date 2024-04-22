@@ -119,6 +119,52 @@ __global__ void mathKernel(float *c)
 
 ![var_span2](imgs/var_span2.png)
 
+### 统一虚拟内存
+
+![uva](imgs/uva.png)
+
+### 统一内存空间
+
+![unified_mem](imgs/unified_mem.png)
+
+### 页锁定内存
+
+    页锁定内存上的内容在CPU和GPU上均可访问
+
+![pageLocked_mem](imgs/pageLocked_mem.png)
+![pageLocked_mem2](imgs/pageLocked_mem2.png)
+
+分配太多会导致系统运行空间变小
+
+页锁定内存自动映射
+
+### 零拷贝内存
+
+![zeroCpy_mem](imgs/zeroCpy_mem.png)
+
+* 零拷贝内存分配： cudaHostAlloc()
+* 零拷贝内存释放： cudaFreeHost()
+
+### 内存加载
+
+![mem_load](imgs/mem_load.png)
+
+内核函数对内存数据加载的请求引发数据在DRAM和GPU片上存储间传递
+
+![mem_load2](imgs/mem_load2.png)
+
+
+![mem_load3](imgs/mem_load3.png)
+
+
+
+
+
+
+
+
+
+
 
 
 
