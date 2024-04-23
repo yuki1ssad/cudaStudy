@@ -18,7 +18,7 @@ __global__ void mathKernel(float *c)
 }
 ```
 
-**分支特点：** warp 分支只会发生在统一 warp 内
+**分支特点：** warp 分支只会发生在同一 warp 内
 
 
 解决方案：
@@ -88,7 +88,7 @@ __global__ void mathKernel(float *c)
 
 * __shared__ 关键字修饰，低延迟、高带宽
 * 共享内存可被线程快中的所有线程访问
-* 共享内存具有与其线程快相同的生命周期
+* 共享内存具有与其线程块相同的生命周期
 * 共享内存是一种线程间通信机制
 * 对共享内存的访问必须要做同步处理，__syncthreads()
 * 流处理器中的L1缓存和共享内存共享片上的64K存储区域
@@ -101,7 +101,7 @@ __global__ void mathKernel(float *c)
 * 内核函数只能读取常量内存中的数据
 * 必须要在主机程序中初始化
 
-### 全部内存
+### 全局内存
 
 * 与程序具有相同的生命周期
 * 首字节地址必须是32字节、64字节、128字节的整数倍
@@ -116,6 +116,8 @@ __global__ void mathKernel(float *c)
 ![cache](imgs/cache.png)
 
 ![var_span](imgs/var_span.png)
+
+符号表示这个变量既可以保存数组，也可以保存标量
 
 ![var_span2](imgs/var_span2.png)
 
@@ -155,6 +157,60 @@ __global__ void mathKernel(float *c)
 
 
 ![mem_load3](imgs/mem_load3.png)
+
+### 共享内存 bank
+
+![sm_bank](imgs/sm_bank.png)
+
+![sm_bank2](imgs/sm_bank2.png)
+
+### 线程屏障 thread barrier
+
+    保证线程块中所有线程必须都执行到某个特定点才能继续执行
+![thread_barrier](imgs/thread_barrier.png)
+
+### 线程栅栏 thread fence
+
+概念：内存栅栏（memory fence）保证在此之前写入内存的数据被所有线程可见
+
+线程块栅栏作用于同一线程块，保证对共享内存、全局内存数据同步
+
+__threadfence_block();
+
+### 线程网格栅栏
+（不能用于共享内存数据，只能用于全局内存数据）
+
+范围：相同的线程网格
+
+保证写入全局内存中的数据对网格中所有线程可见
+
+__threadfence();
+
+### shuffle 指令
+* 使同一线程束中的线程可以直接交换数据
+* 数据交换不依赖于共享内存或全局内存，延迟极低
+* shuffle指令分为两类：用于整型数据、用于浮点型数据，每一类又包含四个指令
+* lane代表线程束中的一个线程，索引范围为0~31
+
+![broadcast_shfl](imgs/broadcast_shfl.png)
+
+### 向上shuffle
+![shfl_up](imgs/shfl_up.png)
+
+### 向后shuffle
+![shfl_down](imgs/shfl_down.png)
+
+### 异或shuffle
+![shfl_xor](imgs/shfl_xor.png)
+
+### CUDA流
+![cudaStream](imgs/cudaStream.png)
+![cudaStream2](imgs/cudaStream2.png)
+![cudaStream3](imgs/cudaStream3.png)
+
+
+
+
 
 
 
