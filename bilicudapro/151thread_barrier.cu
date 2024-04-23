@@ -10,7 +10,7 @@ __global__ void thread_barrier()
     shared = 0.0;
     if ((id / 32) == 0)
     {
-        __syncthreads();
+        __syncthreads();    // 避免在这样的分支里面用，因为分支对线程块中的所有线程结果不一致
         shared = 5.0;
     }
     else

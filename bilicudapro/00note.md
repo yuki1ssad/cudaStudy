@@ -208,6 +208,34 @@ __threadfence();
 ![cudaStream2](imgs/cudaStream2.png)
 ![cudaStream3](imgs/cudaStream3.png)
 
+### 异步拷贝
+
+![asynCpy](imgs/asynCpy.png)
+
+### 流调度
+![stream_schedule](imgs/stream_schedule.png)
+
+### 流事件
+
+![stream_event](imgs/stream_event.png)
+
+事件创建和销毁：
+* 事件对象：cudaEvent_t
+* 事件创建：cudaEventCreat
+* 事件销毁：cudaEventDestory
+
+### 流事件同步
+
+![event_insert](imgs/event_insert.png)
+
+![event_wait](imgs/event_wait.png)
+
+
+
+
+
+
+
 
 
 
