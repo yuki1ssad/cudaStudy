@@ -230,6 +230,106 @@ __threadfence();
 
 ![event_wait](imgs/event_wait.png)
 
+### 流操作时长计算
+* 时长定义
+
+    1. CUDA操作时长指CUDA流中完成某个操作所需时间
+    2. CUDA操作时长可通过CUDA事件计算
+
+* 计算方法
+
+    1. 定义起、止两个CUDA事件
+    2. 起、止事件可以分属不同的CUDA流
+
+### 流执行顺序
+* 隐式流和显示流顺序
+    1. 除了内核执行外，隐式流中操作与主机线程同步（如cudaMemoryCopy函数）
+    2. 显示流中的操作与主机线程异步
+    3. 显示流可分为阻塞流和非阻塞流（阻塞与否：是否会被隐式流中的操作阻塞）
+* 显示流控制
+    1. 使用cudaStreamCreate创建的显示流都是阻塞流
+    2. 非阻塞显示流创建：cudaStreamCreatWithFlags
+
+### 隐式同步和显示同步
+![sync1](imgs/sync1.png)
+![sync2](imgs/sync2.png)
+
+### 可配置事件
+创建：cudaEventCreatWithFlags
+
+可以在主机代码和内核函数中调用此接口
+
+![event_flags](imgs/event_flags.png)
+
+### 内核并发
+
+* 在多个CUDA流中执行多个内核函数
+* 执行内核的流可以是隐式流也可以是显示流
+
+* 同一个核里面，CUDA操作是串行的
+* 不同核之间的 CUDA操作是并行的
+
+多流多内核执行方法：
+
+* 创建多个显示流
+* 将不同内核函数分发到不同的显示流执行
+
+### OpenMP
+
+* 用于CPU并行计算的编程模型
+* 使用编译器指令设置需要并发执行的代码片段
+* 并发性需要编译器支持
+* 可提高CUDA程序中主机代码性能
+* 使用：
+
+    1. 添加头文件 omp.h
+    2. 设置线程数量： omp_set_num_threads(3);
+    3. 设置并行代码段
+    ```
+        #pragma omp parallel
+        {
+            std::cout << "thread is running\n" <<std::endl;
+        }
+    ```
+    4. nvcc编译指令：nvcc -Xcomplier -fopenmp
+
+### 流回调函数
+
+![stream_callback](imgs/stream_callback.png)
+![stream_callback2](imgs/stream_callback2.png)
+
+### 底层指令优化
+概念
+
+CUDA程序可分为两类，I/O限制（I/O-bound）和计算限制（compute-bound）
+
+底层指令优化针对的是计算限制型
+
+理解GPU底层指令在性能、数值精度、线程安全性等方面的优缺点对于优化CUDA程序非常重要
+
+![dicengyouhua](imgs/dicengyouhua.png)
+
+### CAS原子操作
+
+![CAS](imgs/CAS.png)
+
+### MAD优化
+![MAD](imgs/MAD.png)
+![MAD2](imgs/MAD2.png)
+
+### 原子操作的性能损失
+
+![atomic](imgs/atomic.png)
+
+### 内核调试焦点
+![cudagdb](imgs/cudagdb.png)
+![cudagdb2](imgs/cudagdb2.png)
+
+
+
+
+
+
 
 
 
