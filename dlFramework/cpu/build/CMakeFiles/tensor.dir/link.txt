@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/tensor.dir/src/linear.cpp.o CMakeFiles/tensor.dir/src/main.cpp.o CMakeFiles/tensor.dir/src/omp_matrix.cpp.o CMakeFiles/tensor.dir/src/tensor.cpp.o  -o tensor  /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.so 
